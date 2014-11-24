@@ -36,6 +36,7 @@ void BxLevelView::keyPressEvent(QKeyEvent* event)
 //        mTransform.translate(-diff.x(), -diff.y());
 */
 //        setTransform(mTransform, 1);
+
         translate(-mScalePoint.x(),-mScalePoint.y());
         scale(1.1,1.1);
         translate(mScalePoint.x(),mScalePoint.y());
@@ -48,6 +49,7 @@ void BxLevelView::keyPressEvent(QKeyEvent* event)
     {
         centerOn(0,0);
     }
+
     QGraphicsView::keyPressEvent(event);
 }
 

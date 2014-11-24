@@ -7,24 +7,27 @@
 #include <QtWidgets>
 #include <QVector>
 
-class BxActorItem : public QGraphicsEllipseItem
+class BxNodeActor : public QGraphicsEllipseItem
 {
 public:
-    BxActorItem();
-    BxActorItem(const QRectF &rect, QGraphicsItem *parent = 0);
+    BxNodeActor(QGraphicsItem *parent = 0);
+    BxNodeActor(const QJsonObject &, QGraphicsItem *parent = 0);
+    ~BxNodeActor();
 
+
+    void initialise();
     QWidget* getControls();
     void writeToJson(QJsonObject &);
+    void readFromJson(const QJsonObject &);
     void addAttribute(BxBaseAttribute*);
 
 signals:
     
 public slots:
-//    void setValue(int in) { testValue = in; }
 
 private:
-//    BxIntAttribute* mTestValue;
     QVector<BxBaseAttribute*> mAttributes;
+
     QString mID;
     
 };

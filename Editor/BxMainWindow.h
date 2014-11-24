@@ -2,7 +2,7 @@
 #define BXMAINWINDOW_H
 
 #include <QMainWindow>
-#include "BxActorItem.h"
+#include "BxNodeActor.h"
 #include "BxLevelScene.h"
 #include "BxLevelView.h"
 
@@ -32,11 +32,15 @@ signals:
     
 public slots:
     void actorButtonGroupClick(QAbstractButton* );
+    void cameraButtonGroupClick(QAbstractButton* );
     void aboutMessage();
     void selectionChanged();
-    void itemInserted(QGraphicsItem*);
+    void clearAttributeEditor();
+    void clearButtons();
     void newFile();
+    void saveAs();
     void saveFile();
+    void loadFile();
 
 private:
     void createToolBox();
@@ -44,6 +48,8 @@ private:
     void createMenus();
     void createToolBars();
     void populateAttributeEditor();
+
+    QString savePath;
 
     QToolBar* fileToolBar;
     QToolBar* aboutToolBar;
@@ -53,11 +59,12 @@ private:
     QMenu* aboutMenu;
 
     QAction* aboutAction;
-
     QAction* newAction;
     QAction* saveAsAction;
+    QAction* loadAction;
 
     QButtonGroup* actorButtonGroup;
+    QButtonGroup* cameraButtonGroup;
 
     QToolBox* mainToolBox;
     QWidget* attributeEditor;

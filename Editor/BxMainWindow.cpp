@@ -19,7 +19,9 @@ BxMainWindow::BxMainWindow() :
     view->centerOn(0,0);
 
     connect(scene, SIGNAL(selectionChanged()), this, SLOT(selectionChanged()));
-    connect(scene, SIGNAL(itemInserted(QGraphicsItem*)), this, SLOT(itemInserted(QGraphicsItem*)));
+    connect(scene, SIGNAL(itemInserted()), this, SLOT(clearButtons()));
+    connect(scene, SIGNAL(itemDeleted()), this, SLOT(clearAttributeEditor()));
+    connect(scene, SIGNAL(cameraComplete()), this, SLOT(clearButtons()));
 
     attributeEditor = new QWidget();
     attributeEditor->setMinimumWidth(200);
@@ -54,24 +56,41 @@ void BxMainWindow::createToolBox()
     connect(actorButtonGroup, SIGNAL(buttonClicked(QAbstractButton*)),
             this, SLOT(actorButtonGroupClick(QAbstractButton *)));
 
+    cameraButtonGroup = new QButtonGroup(this);
+    cameraButtonGroup->setExclusive(false);
+    connect(cameraButtonGroup, SIGNAL(buttonClicked(QAbstractButton*)),
+            this, SLOT(cameraButtonGroupClick(QAbstractButton *)));
 
-    // build layout of widgets
+    // build layouts of widgets
     QGridLayout* actorLayout = new QGridLayout;
     actorLayout->setAlignment(Qt::AlignTop);
-    QPushButton* button1 = new QPushButton("Add Actor");
-    button1->setCheckable(true);
-    actorButtonGroup->addButton(button1);
-    actorLayout->addWidget(button1);
+    QPushButton* addActorButton = new QPushButton("Add Actor");
+    addActorButton->setCheckable(true);
+    actorButtonGroup->addButton(addActorButton);
+    actorLayout->addWidget(addActorButton);
+
+    QGridLayout* cameraLayout = new QGridLayout;
+    cameraLayout->setAlignment(Qt::AlignTop);
+    QPushButton* AddCameraPathButton = new QPushButton("Add Camera Path");
+    AddCameraPathButton->setCheckable(true);
+    cameraButtonGroup->addButton(AddCameraPathButton);
+    cameraLayout->addWidget(AddCameraPathButton);
+
+
 
     // add layout to king widget
     QWidget* actorWidget = new QWidget;
+    QWidget* cameraWidget = new QWidget;
+//    cameraWidget->setSizePolicy(QSizePolicy(QSizePolicy::Maximum));
+//    actorWidget->setSizePolicy(QSizePolicy(QSizePolicy::Maximum));
+    cameraWidget->setLayout(cameraLayout);
     actorWidget->setLayout(actorLayout);
 
     mainToolBox = new QToolBox;
-    mainToolBox->setSizePolicy(QSizePolicy(QSizePolicy::Maximum, QSizePolicy::Ignored));
+//    mainToolBox->setSizePolicy(QSizePolicy(QSizePolicy::Minimum, QSizePolicy::Ignored));
     mainToolBox->setMinimumWidth(actorWidget->sizeHint().width());
     mainToolBox->addItem(actorWidget, tr("Create Actors"));
-
+    mainToolBox->addItem(cameraWidget, tr("Camera"));
 }
 
 void BxMainWindow::createActions() // actions connect UI to functions
@@ -86,7 +105,11 @@ void BxMainWindow::createActions() // actions connect UI to functions
 
     saveAsAction = new QAction(tr("Save As"),this);
     saveAsAction->setShortcut(tr("Ctrl+Shift+S"));
-    connect(saveAsAction, SIGNAL(triggered()), this, SLOT(saveFile()));
+    connect(saveAsAction, SIGNAL(triggered()), this, SLOT(saveAs()));
+
+    loadAction = new QAction(tr("Open File"),this);
+    loadAction->setShortcut(tr("Ctrl+O"));
+    connect(loadAction, SIGNAL(triggered()), this, SLOT(loadFile()));
 }
 
 void BxMainWindow::createMenus()
@@ -94,6 +117,7 @@ void BxMainWindow::createMenus()
     fileMenu = menuBar()->addMenu(tr("&File"));
     fileMenu->addAction(newAction);
     fileMenu->addAction(saveAsAction);
+    fileMenu->addAction(loadAction);
 
     aboutMenu = menuBar()->addMenu(tr("&Help"));
     aboutMenu->addAction(aboutAction);
@@ -115,51 +139,65 @@ void BxMainWindow::createToolBars()
 
 }
 
+void BxMainWindow::clearAttributeEditor()
+{
+    if(attributeEditor->layout() != NULL) // if attributeEditor is populated
+    {
+        QLayoutItem* item;
+        while (( item = attributeEditor->layout()->takeAt(0)) != NULL )
+        {
+            delete item->widget();
+            delete item;
+        }
+        delete attributeEditor->layout();
+    }
+}
 
 void BxMainWindow::populateAttributeEditor()
 {
-    delete attributeEditor->layout();
+    clearAttributeEditor();
     QVBoxLayout* attributeLayout = new QVBoxLayout();
     attributeLayout->setAlignment(Qt::AlignTop);
 
     if((scene) && !(scene->items().empty()))
     {
-        BxActorItem* item = qgraphicsitem_cast<BxActorItem*>(scene->selectedItems().first());
-       //DiagramItem *startItem = qgraphicsitem_cast<DiagramItem *>(startItems.first());
+        BxNodeActor* item = dynamic_cast<BxNodeActor*>(scene->selectedItems().first());
 
         if(item)
         {
-            QWidget* test = item->getControls();
-            if(test)
-                attributeLayout->addWidget(test);
+            QWidget* ctrlWidget = item->getControls();
+            if(ctrlWidget)
+                attributeLayout->addWidget(ctrlWidget);
         }
     }
     attributeEditor->setLayout(attributeLayout);
 }
 
-
-void BxMainWindow::selectionChanged()
+void BxMainWindow::selectionChanged() // UPDATES UI (ATTRIBUTE PANE) WHEN SELECTION CHANGES
 {
-    QLayoutItem* item;
-    while (( item = attributeEditor->layout()->takeAt(0)) != NULL )
-    {
-        delete item->widget();
-        delete item;
-    }
-
     if(!(scene->selectedItems().empty()))
     {
         populateAttributeEditor();
     }
+    else
+    {
+        clearAttributeEditor();
+    }
 }
 
-void BxMainWindow::itemInserted(QGraphicsItem *in)
+void BxMainWindow::clearButtons() // RESETS BUTTON STATES TO DEFAULT
 {
     QList<QAbstractButton *> buttons = actorButtonGroup->buttons();
     foreach (QAbstractButton *button, buttons)
     {
             button->setChecked(false);
     }
+    buttons = cameraButtonGroup->buttons();
+    foreach (QAbstractButton *button, buttons)
+    {
+            button->setChecked(false);
+    }
+
 }
 
 void BxMainWindow::newFile()
@@ -179,13 +217,23 @@ void BxMainWindow::newFile()
 
 void BxMainWindow::saveFile()
 {
+    if(savePath == "")
+    {
+        saveAs();
+    }
+
+}
+
+void BxMainWindow::saveAs()
+{
     QString path = QFileDialog::getSaveFileName(this, "Filename", QString(), "*.json");
     if (path.isEmpty())
     {
         return;
     }
 
-    QFile saveFile(path);
+    savePath = path;
+    QFile saveFile(savePath);
 
     if (!saveFile.open(QIODevice::WriteOnly)) {
         qWarning("Couldn't open save file.");
@@ -193,30 +241,95 @@ void BxMainWindow::saveFile()
     }
 
     QJsonObject saveObject;
-
-    QJsonArray arr;
+    QJsonArray actorArray;
+    QJsonObject camJsonObject;
 
     foreach(auto item, scene->items())
     {
-        auto actor = dynamic_cast<BxActorItem*>(item);
+        auto actor = dynamic_cast<BxNodeActor*>(item);
         if (actor)
         {
             QJsonObject json;
             actor->writeToJson(json);
-            arr.append(json);
+            actorArray.append(json);
         }
     }
 
-    saveObject["actors"] = arr;
+    BxNodePath* camPath = scene->getCameraPath();
+    if(camPath)
+    {
+        camPath->writeToJson(camJsonObject);
+    }
+
+    saveObject["actors"] = actorArray;
+    saveObject["camPath"] = camJsonObject;
 
     QJsonDocument saveDoc(saveObject);
     saveFile.write(saveDoc.toJson());
 }
 
+void BxMainWindow::loadFile()
+{
+    QString path = QFileDialog::getOpenFileName(this, "Filename", QString(), "*.json");
+    if(path.isEmpty())
+    {
+        return;
+    }
+
+    QFile loadFile(path);
+    if (!loadFile.open(QIODevice::ReadOnly))
+    {
+        qWarning("Couldn't open save file.");
+        return;
+    }
+
+    scene->clear();
+
+    QByteArray saveData = loadFile.readAll();
+    QJsonDocument loadDoc(QJsonDocument::fromJson(saveData));
+
+    QJsonArray actorArray = loadDoc.object()["actors"].toArray(); // find "actors" in the doc and loop over them
+    for (int i = 0; i < actorArray.size(); ++i)
+    {
+        QJsonObject obj(actorArray[i].toObject());
+
+        auto first = obj.begin(); // work this out
+        QJsonObject data = first.value().toObject();
+
+        BxNodeActor* newActor = new BxNodeActor(data);
+        scene->insertActor(newActor);
+    }
+    return;
+
+}
+
+// BUTTON ACTIONS
+
 void BxMainWindow::actorButtonGroupClick(QAbstractButton* button)
 {
-    scene->setMode(BxLevelScene::insertItem);
+    if(scene->getMode() == BxLevelScene::insertItem)
+    {
+        scene->setMode((BxLevelScene::moveItem));
+    }
+    else
+    {
+        scene->setMode(BxLevelScene::insertItem);
+    }
 }
+
+void BxMainWindow::cameraButtonGroupClick(QAbstractButton* button)
+{
+    if(scene->getMode() == BxLevelScene::editCamera)
+    {
+        scene->setMode((BxLevelScene::moveItem));
+    }
+    else
+    {
+        scene->setMode(BxLevelScene::editCamera);
+    }
+
+}
+
 
 void BxMainWindow::aboutMessage()
 {
