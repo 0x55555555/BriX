@@ -28,10 +28,10 @@ QVariant BxNodePathPoint::itemChange(GraphicsItemChange change, const QVariant &
         foreach(BxNodeLine* line, mConnections)
         {
             line->adjust();
-            line->update();
+//            line->update();
         }
 #warning this is inefficient
-    mScene->update();
+    //mScene->update();
     }
     return QGraphicsItem::itemChange(change, value);
 }

@@ -13,30 +13,45 @@ void BxNodeLine::adjust()
         return;
 
     prepareGeometryChange();
-    update();
+    update(boundingRect());
 }
 
 QRectF BxNodeLine::boundingRect() const
 {
-    QPointF src = mSrc->pos();
-    QPointF dest = mDest->pos();
-    QRectF rect(src, QSizeF(dest.x() - src.x(), dest.y() - src.y()));
-    return rect;
+    float x, y, w, h;
+
+    if(mSrc->x() < mDest->x())
+    {
+        x = mSrc->x();
+        w = mDest->x() - mSrc->x();
+    }
+    else
+    {
+        x = mDest->x();
+        w = mSrc->x() - mDest->x();
+    }
+    if(mSrc->y() < mDest->y())
+    {
+        y = mSrc->y();
+        h = mDest->y() - mSrc->y();
+    }
+    else
+    {
+        y = mDest->y();
+        h = mSrc->y() - mDest->y();
+    }
+    return QRectF(x, y, w, h);
 }
 
 void BxNodeLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-//    QRectF r = boundingRect();
-    QPen p = painter->pen();
-    //painter->drawRect(QRectF(r.x(), r.y(), r.width()-p.width(), r.height()-p.width()));
-
     if(!mSrc || !mDest)
     {
         return;
     }
 
+    QPen p = painter->pen();
     QLineF line(mapFromItem(mSrc, 0, 0), mapFromItem(mDest, 0, 0));
-    //QLineF line(mSrc->pos(), mDest->pos());
     painter->setBrush(Qt::black);
     painter->drawLine(line);
 }

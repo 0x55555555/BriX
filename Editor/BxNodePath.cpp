@@ -46,7 +46,6 @@ void BxNodePath::addPoint(const QPointF &in)
         mPoints.last()->mConnections.push_back(newLine);
 
         newLine->adjust();
-        newLine->update();
 
         mScene->addItem(newLine);
     }
