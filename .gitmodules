@@ -1,0 +1,3 @@
+[submodule "Nomad"]
+  path = Nomad
+  url = git@github.com:jorj1988/Nomad.git
