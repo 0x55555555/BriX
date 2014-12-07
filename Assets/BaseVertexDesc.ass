@@ -1,0 +1,16 @@
+{
+	"version": "2",
+	"types": {
+		"VertexDescriptionType": {
+			"dynamicCount": "1"
+		}
+	},
+	"noroot": "0",
+	"data": {
+		"type": "VertexDescriptionType",
+		"contents": {
+			"uuid": "{66857aac-c48c-4472-bbfc-12ebceaebaf4}",
+			"assetUuid": "{cedcd310-9059-4c22-bf07-449ff6a9965a}"
+		}
+	}
+}

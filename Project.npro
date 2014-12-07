@@ -1,0 +1,34 @@
+{
+	"version": "2",
+	"types": {
+		"FullStringProperty": {
+			"dynamicCount": "3"
+		},
+		"Project": {
+			"dynamicCount": "1"
+		}
+	},
+	"noroot": "0",
+	"data": {
+		"type": "Project",
+		"contents": {
+			"libraries": {
+				"contents": [
+					{
+						"type": "FullStringProperty",
+						"value": "NomadRenderer.qtc_Desktop_Qt_5_3_clang_64bit/libNomadRenderer.dylib"
+					},
+					{
+						"type": "FullStringProperty",
+						"value": "NomadRendererEditor.qtc_Desktop_Qt_5_3_clang_64bit/libNomadRendererEditor.dylib"
+					},
+					{
+						"type": "FullStringProperty",
+						"value": "Game.qtc_Desktop_Qt_5_3_clang_64bit/libGame.dylib"
+					}
+				]
+			},
+			"binFolder": "/Volumes/User/GameAll-build/qtc_Desktop_Qt_5_3_clang_64bit-debug"
+		}
+	}
+}

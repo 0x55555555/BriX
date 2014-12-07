@@ -1,0 +1,13 @@
+precision mediump float;
+out vec4 outColour;
+in vec3 v_normal;
+
+void main()
+{
+	vec3 colour = vec3(0.7, 0.7, 0.75);
+	vec3 lightDir = normalize(vec3(-1, -1, -1));
+
+  float amt = clamp(dot(v_normal, -lightDir), 0, 1);
+
+  outColour = vec4(amt * colour, 1.0);
+}

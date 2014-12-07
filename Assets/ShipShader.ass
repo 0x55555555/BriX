@@ -1,0 +1,18 @@
+{
+	"version": "2",
+	"types": {
+		"ShaderType": {
+			"dynamicCount": "1"
+		}
+	},
+	"noroot": "0",
+	"data": {
+		"type": "ShaderType",
+		"contents": {
+			"uuid": "{2dcda1d9-f711-43c6-80a3-a6f0607469a9}",
+			"assetUuid": "{2a98ca90-d965-44c6-92cd-3e561cffaf28}",
+			"frag": "{c337a5ab-5871-4be0-ab3b-7104f1d4bc17}",
+			"vert": "{c5f823b3-037a-472c-b5e9-e71a3da52b9e}"
+		}
+	}
+}

@@ -1,0 +1,25 @@
+{
+	"version": "2",
+	"types": {
+		"Object": {
+			"dynamicCount": "1"
+		},
+		"Renderable": {
+			"dynamicCount": "1"
+		}
+	},
+	"noroot": "0",
+	"data": {
+		"type": "Object",
+		"contents": {
+			"uuid": "{25f99c13-eebc-4a91-a302-762c9e403cf7}",
+			"Renderable0": {
+				"type": "Renderable",
+				"contents": {
+					"mesh": "{d854e881-4edb-4e81-89a9-da48439220b1}",
+					"shader": "{2a98ca90-d965-44c6-92cd-3e561cffaf28}"
+				}
+			}
+		}
+	}
+}

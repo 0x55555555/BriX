@@ -1,0 +1,16 @@
+{
+	"version": "2",
+	"types": {
+		"ObjectType": {
+			"dynamicCount": "1"
+		}
+	},
+	"noroot": "0",
+	"data": {
+		"type": "ObjectType",
+		"contents": {
+			"uuid": "{7878f290-87a2-4973-b6c3-0f18f51e137c}",
+			"assetUuid": "{25f99c13-eebc-4a91-a302-762c9e403cf7}"
+		}
+	}
+}

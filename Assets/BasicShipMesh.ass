@@ -1,0 +1,17 @@
+{
+	"version": "2",
+	"types": {
+		"ObjMeshType": {
+			"dynamicCount": "1"
+		}
+	},
+	"noroot": "0",
+	"data": {
+		"type": "ObjMeshType",
+		"contents": {
+			"uuid": "{45c375e2-fcfa-428f-a0fe-d533a5872705}",
+			"assetUuid": "{d854e881-4edb-4e81-89a9-da48439220b1}",
+			"layout": "{cedcd310-9059-4c22-bf07-449ff6a9965a}"
+		}
+	}
+}

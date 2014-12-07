@@ -1,0 +1,17 @@
+{
+	"version": "2",
+	"types": {
+		"ShaderVertexComponentType": {
+			"dynamicCount": "1"
+		}
+	},
+	"noroot": "0",
+	"data": {
+		"type": "ShaderVertexComponentType",
+		"contents": {
+			"uuid": "{4c87a9ac-2185-4f13-befa-31cbd1c42302}",
+			"assetUuid": "{c5f823b3-037a-472c-b5e9-e71a3da52b9e}",
+			"layout": "{cedcd310-9059-4c22-bf07-449ff6a9965a}"
+		}
+	}
+}
