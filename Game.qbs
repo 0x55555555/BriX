@@ -12,4 +12,5 @@ Eks.Library {
   Depends { name: "ShiftCore" }
   Depends { name: "NomadCore" }
   Depends { name: "NomadEditor" }
+  Depends { name: "NomadRenderer" }
 }

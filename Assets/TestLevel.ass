@@ -10,7 +10,8 @@
 		"type": "LevelType",
 		"contents": {
 			"uuid": "{33273371-75fb-4264-9eb2-3791f40d69b0}",
-			"assetUuid": "{34e8d475-f809-4824-a851-958b6c2bd2d5}"
+			"assetUuid": "{34e8d475-f809-4824-a851-958b6c2bd2d5}",
+			"playerShip": "{25f99c13-eebc-4a91-a302-762c9e403cf7}"
 		}
 	}
 }

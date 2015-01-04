@@ -16,19 +16,23 @@
 				"contents": [
 					{
 						"type": "FullStringProperty",
-						"value": "NomadRenderer.qtc_Desktop_Qt_5_3_clang_64bit/libNomadRenderer.dylib"
+						"value": "RenderCore.qtc_Desktop_Qt_5_4_0_clang_64bit/libRenderCore.dylib"
 					},
 					{
 						"type": "FullStringProperty",
-						"value": "NomadRendererEditor.qtc_Desktop_Qt_5_3_clang_64bit/libNomadRendererEditor.dylib"
+						"value": "NomadRenderer.qtc_Desktop_Qt_5_4_0_clang_64bit/libNomadRenderer.dylib"
 					},
 					{
 						"type": "FullStringProperty",
-						"value": "Game.qtc_Desktop_Qt_5_3_clang_64bit/libGame.dylib"
+						"value": "NomadRendererEditor.qtc_Desktop_Qt_5_4_0_clang_64bit/libNomadRendererEditor.dylib"
+					},
+					{
+						"type": "FullStringProperty",
+						"value": "Game.qtc_Desktop_Qt_5_4_0_clang_64bit/libGame.dylib"
 					}
 				]
 			},
-			"binFolder": "/Volumes/User/GameAll-build/qtc_Desktop_Qt_5_3_clang_64bit-debug"
+			"binFolder": "/Volumes/User/build-GameAll-Desktop_Qt_5_4_0_clang_64bit-Debug/qtc_Desktop_Qt_5_4_0_clang_64bit-debug"
 		}
 	}
 }
